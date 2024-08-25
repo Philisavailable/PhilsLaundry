@@ -1,0 +1,5 @@
+<h1>Activation de votre compte</h1>
+<p>Bonjour {{user.firstName}},</p>
+<p>Pour pouvoir activer votre compte et passer des commandes, cliquez sur le lien ci-dessous.</p>
+<p><a href="{{ absolute_url(path('verify_user', {token: token})) }}">Lien</a></p>
+<p>Merci.</p>

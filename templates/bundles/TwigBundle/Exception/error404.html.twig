@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable{% endblock %}
+
+{% block body %}
+<div class="col-6 h-100 mx-auto d-flex flex-column justify-content-center align-items-center">
+    <h1>Page introuvable </h1>
+    <p>La page que vous cherchez est introuvable, pour retourner sur la page d'acceuil cliquez <a href="{{ path('show_home') }}">ici</a>.</p>
+</div>
+{% endblock %}

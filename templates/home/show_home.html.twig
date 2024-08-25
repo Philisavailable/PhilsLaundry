@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to PhilsLaundry{% endblock %}
+
+{% block body %}
+<div class="col-4 text-center mx-auto my-4">
+    <h1>Qualité et service</h1>
+    <p>
+        Nous mettons un point d’honneur à offrir un service optimum à notre clientèle, 80% d’une première impression en
+        entretien se faire sur la tenue vestimentaire, on vous laisse gérer les 20% restant.
+    </p>
+</div>
+<div class="col-12">
+    <div class="position-relative p-0 overflow-hidden banner">
+        <img class="w-100 h-100 object-fit-none rounded-start"
+            src="{{ asset('img/header-banner.jpg') }}" alt="image de machines à laver">
+        <a href="{{ path('app_register') }}">
+            <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center text-center bg-dark bg-opacity-50 text-white p-3 rounded-start">
+                <div class="d-flex flex-row justify-content-between align-items-center col-2">
+                    <h5>Créer un compte</h5>
+                    <i class="bi bi-arrow-right fs-3"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="d-flex flex-row col-12 services-home">
+    {% for service in services %}
+    <div class="col-6 position-relative p-0 overflow-hidden">
+        <img class="card-img-top w-100 h-100 object-fit-cover rounded-start"
+            src="{{ asset('services/' ~ service.photo) }}" alt="image {{ service.title }}">
+        <a href="{% if app.user %}{{ path('add_order') }}{% else %}{{ path('app_login') }}{% endif %}">
+            <div
+                class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center text-center bg-dark bg-opacity-50 text-white p-3 rounded-start">
+                <div>
+                    <h5 class="card-title mb-2">{{ service.title }}</h5>
+                    <i class="bi bi-arrow-right fs-3"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre commande{% endblock %}
+
+{% block body %}
+<a class="my-5 text-dark" href="{{ path('show_dashboard')}}" ><i class="bi bi-caret-left-fill" style="font-size: 3rem;"></i></a> Retour</button></a>
+
+<div class="col-8 mx-auto">
+    <div class="col-4">
+        <img class="card-img-top" src="{{ asset('services/' ~ order.serviceId.photo) }}" alt="image {{ order.serviceId.title }}">
+    </div>
+<h1>Commande du : {{ order.date | date("d/m/Y") }}</h1>
+<h2>{{ order.serviceId.title }}</h2>
+<h3>Statut de la commande : {{ order.status }}</h3>
+<h4>Date de mise à jour du statut : {{ order.updatedAt | date("d/m/Y - H:i")}}</h4>
+<h5>Total de la commande : {{ order.total }} €</h5>
+<h6>Poids de la commande : {{ order.weight }} kg</h6>
+{% if order.note is not null %}
+<h6>Commentaires :</h6>
+<p>{{ order.note }}</p>
+{% endif %}
+</div>
+{% endblock %}

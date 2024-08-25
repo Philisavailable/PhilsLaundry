@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | Employés{% endblock %}
+
+{% block body %}
+<a class="my-5 text-dark" href="{{ path('show_dashboard')}}" ><i class="bi bi-caret-left-fill" style="font-size: 3rem;"></i></a>
+
+<div class="col-8 mx-auto">
+  {{ form_start(form) }}
+  {{ form_row(form.name)}}
+  {{ form_row(form.firstName)}}
+  {{ form_row(form.email)}}
+  {%if user and user.id is not empty %}
+  {{ form_row(form.roles)}}
+  <a href="{{ path('delete_user', {id: user.id}) }}" 
+     class="d-block mx-auto my-3 btn btn-danger col-1" 
+     onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+      Supprimer
+  </a>
+  {% endif %}
+  {{ form_end(form) }}
+</div>
+{% endblock %}

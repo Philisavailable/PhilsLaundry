@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | Services{% endblock %}
+
+{% block body %}
+<a class="my-5 text-dark" href="{{ path('show_dashboard')}}" ><i class="bi bi-caret-left-fill" style="font-size: 3rem;"></i></a>
+
+
+<div class="col-8 mx-auto">
+  {{ form_start(form) }}
+  {{ form_row(form.title)}}
+  {{ form_row(form.photo)}}
+  {{ form_row(form.description)}}
+  {{ form_row(form.price)}}
+  
+
+  {%if service and service.id is not empty %}
+    <a href="{{ path('delete_service', {id: service.id}) }}" 
+       class="d-block mx-auto my-3 btn btn-danger col-1" 
+       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce service ?');">
+        Supprimer
+    </a>
+    {% endif %}
+  {{ form_row(form.submit)}}
+  {{ form_end(form) }}
+</div>
+
+{% endblock %}

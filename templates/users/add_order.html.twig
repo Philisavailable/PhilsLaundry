@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une commandes{% endblock %}
+
+{% block body %}
+<a class="my-5 text-dark" href="{{ path('show_dashboard')}}" ><i class="bi bi-caret-left-fill" style="font-size: 3rem;"></i></a>
+
+<div class="col-6 mx-auto">
+    <h1 class="text-center my-5">Créer une commande</h1>
+{{ form_start(form) }}
+{{ form_end(form) }}
+</div>
+{% endblock %}

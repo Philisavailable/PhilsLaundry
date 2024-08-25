@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!{% endblock %}
+
+{% block body %}
+<h1 class="text-center my-5">Contact</h1>
+
+<div class="d-flex justify-content-between">
+    <div class="d-flex flex-column col-2 my-4">
+        <h2 class="my-5 text-center" style="font-size: 1.5rem;">Nos coordonnées</h2>
+        <div class="d-flex flex-row justify-content-between">
+            <i class="bi bi-telephone-fill"></i> <p>0987654321</p>
+        </div>
+        <div class="d-flex flex-row justify-content-between">
+            <i class="bi bi-envelope-fill"></i> <p>mon.mail@a.a</p>
+        </div>
+    </div>
+
+    <div class="col-6">
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+{% endblock %}

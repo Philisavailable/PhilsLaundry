@@ -1,0 +1,261 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<h1 class="text-center my-5">Profil</h1>
+
+<!-- ////////////////////BOUTONS//////////////////// -->
+<a href="{{ path('app_logout') }}">
+    <button class="btn btn-outline-danger">Déconnexion</button>
+</a>
+
+<ul class="nav nav-pills col-12 justify-content-around my-5 mx-auto" id="pills-tab" role="tablist">
+    {% if is_granted('ROLE_ADMIN') %}
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-services-tab" data-bs-toggle="pill" data-bs-target="#pills-services"
+            type="button" role="tab" aria-controls="pills-services" aria-selected="true">Services</button>
+    </li>
+    {% endif %}
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-commandes-tab" data-bs-toggle="pill" data-bs-target="#pills-commandes"
+            type="button" role="tab" aria-controls="pills-commandes" aria-selected="false">Commandes</button>
+    </li>
+    {% if is_granted('ROLE_ADMIN') %}
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-employee-tab" data-bs-toggle="pill" data-bs-target="#pills-employee"
+            type="button" role="tab" aria-controls="pills-employee" aria-selected="false">Employés</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-client-tab" data-bs-toggle="pill" data-bs-target="#pills-client"
+            type="button" role="tab" aria-controls="pills-client" aria-selected="false">Clients</button>
+    </li>
+    {% endif %}
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-infos-tab" data-bs-toggle="pill" data-bs-target="#pills-infos" type="button"
+            role="tab" aria-controls="pills-infos" aria-selected="false">Infos</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="pills-tabContent">
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <!-- /////////////TABLE SERVICES///////////// -->
+    <div class="tab-pane fade" id="pills-services" role="tabpanel" aria-labelledby="pills-services-tab">
+        <div class="col-2 mb-3">
+            <a class="btn btn-sm btn-outline-success" href="{{ path('add_services') }}">+ Ajouter un service</a>
+        </div>
+        <div class="d-flex flex-wrap justify-content-around p-4">
+            {% for service in services %}
+            <div class="card" style="width: 18rem;">
+                <a href="{{ path('update_services', { 'id': service.id }) }}">
+                    <img class="card-img-top" src="{{ asset('services/' ~ service.photo) }}"
+                        alt="Image {{ service.title }}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ service.title }}</h5>
+                    <p class="card-text">{{ service.description }}</p>
+                    <h6 class="card-title">Prix au kg : {{ service.price }} €</h6>
+                </div>
+            </div>
+            {% else %}
+            <h2 class="text-center my-5">Pas de service pour le moment</h2>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- /////////////END TABLE///////////// -->
+    {% endif %}
+
+    <!-- /////////////TABLE Commandes///////////// -->
+    <div class="tab-pane show active" id="pills-commandes" role="tabpanel" aria-labelledby="pills-commandes-tab">
+        <div class="col-2 mb-3">
+            <a class="btn btn-sm btn-outline-success" href="{{ path('add_order') }}">+ Créer une commande</a>
+        </div>
+
+        {% if not is_granted('ROLE_ADMIN') and not is_granted('ROLE_EMPLOYEE') %}
+        <div class="d-flex flex-wrap justify-content-around p-4">
+            {% for clientsOrder in clientsOrders %}
+            {% set service = clientsOrder.serviceId %}
+
+            <div class="card m-3" style="max-width: 580px; max-height: 380px;">
+                <div class="row g-0 h-100">
+                    <div class="col-6 position-relative p-0 overflow-hidden">
+                        <img class="card-img-top w-100 h-100 object-fit-cover rounded-start"
+                            src="{{ asset('services/' ~ service.photo) }}" alt="image {{ service.title }}">
+                        <a href="#">
+                            <div
+                                class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center text-center bg-dark bg-opacity-50 text-white p-3 rounded-start">
+                                <div>
+                                    <h5 class="card-title mb-2">{{ service.title }}</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <div class="card-body">
+                            <p class="card-title">Statut de la commande : </p>
+                            <p class="fw-bold">{{ clientsOrder.status | title }}</p>
+                            <p class="card-text">Date de dépôt : </p>
+                            <p class="fw-bold">{{ clientsOrder.date | date("d/m/Y - H:i") }}</p>
+                            <p class="card-text">Date de mise à jour du statut :
+                                {% if clientsOrder.status != "Commandé" %}
+                            <p class="fw-bold">{{ clientsOrder.updatedAt | date("d/m/Y - H:i") }}</p>
+                            {% endif %}
+                            </p>
+                            <p class="card-text">Poids de la commande :</p>
+                            <p class="fw-bold">{{ clientsOrder.weight }} kg</p>
+                            <p class="card-title text-decoration-underline fw-bold">Prix total : {{ clientsOrder.total
+                                }} €</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <h2 class="text-center my-5">Pas de commande pour le moment</h2>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- ////////// COMMANDE ADMIN ////////// -->
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPLOYEE') %}
+
+        <div class="my-4">
+            <form method="get" action="{{ path('show_dashboard') }}">
+                <div class="d-flex flex-row justify-content-between col-6">
+                    <input type="text" id="search" name="search" class="form-control mx-4" value="{{ searchTerm }}" placeholder="Recherche par nom de client">
+                    <button type="submit" class="btn btn-secondary mx-3">Rechercher</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">Réinitialiser</button>
+                </div>
+            </form>
+        </div>
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Commande</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Date de mise à jour</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    {% set user = order.userId %}
+                    {% set service = order.serviceId %}
+                    <td>{{ service.title }} - {{ user.name | capitalize }}. {{ user.firstName |u.truncate(1).upper }}
+                    </td>
+                    <td>{{ order.status | capitalize }}</td>
+                    <td>{{ order.updatedAt | date("d/m/Y - H:i") }}</td>
+                    <td>{{ order.total }} </td>
+                    <td><a href="{{ path('update_order', {'id' :order.id }) }}"><i class="bi bi-pen-fill text-warning"
+                                style="font-size: 1.5rem;"></i></a></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <th scope="row">2</th>Pas de commande pour le moment</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+    </div>
+
+    <!-- /////////////END TABLE///////////// -->
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <!-- /////////////TABLE Employés///////////// -->
+    <div class="tab-pane fade" id="pills-employee" role="tabpanel" aria-labelledby="pills-employee-tab">
+        <div class="col-2 mb-3">
+            <a class="btn btn-sm btn-outline-success" href="{{ path('add_employee') }}">+ Ajouter un employé</a>
+        </div>
+        <div class="p-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.firstName }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td><a href="{{ path('update_user', {'id': employee.id}) }}"><i
+                                    class="bi bi-pen-fill text-warning" style="font-size: 1.5rem;"></i></a></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <th scope="row">2</th>Pas d'employés pour le moment</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /////////////END TABLE///////////// -->
+
+    <!-- /////////////TABLE Clients///////////// -->
+    <div class="tab-pane fade" id="pills-client" role="tabpanel" aria-labelledby="pills-client-tab">
+        <div class="p-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.name }}</td>
+                        <td>{{ client.firstName }}</td>
+                        <td>{{ client.email }}</td>
+                        <td><a href="{{ path('update_user', {'id': client.id}) }}"><i
+                                    class="bi bi-pen-fill text-warning" style="font-size: 1.5rem;"></i></a></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <th scope="row">2</th>Pas de pour le moment</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /////////////END TABLE///////////// -->
+    {% endif %}
+
+    <!-- /////////////TABLE Infos///////////// -->
+    <div class="tab-pane fade" id="pills-infos" role="tabpanel" aria-labelledby="pills-infos-tab">
+        <div class="col-8 text-center mx-auto">
+            <div class="my-4">
+                <p class="fs-3">Nom : {{ app.user.name }}</p>
+                <p class="fs-3">Prénom : {{ app.user.firstName }}</p>
+                <p class="fs-3">Email : {{ app.user.email }}</p>
+            </div>
+            
+            <a href="{{ path('update_connected_user') }}" class="d-block mx-auto btn btn-outline-secondary col-2">Modifier</a>
+        </div>
+    </div>
+    <!-- /////////////END TABLE///////////// -->
+
+</div>
+
+<script>
+    function resetForm() {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('search');
+        window.location.href = url.toString();
+    }
+</script>
+{% endblock %}

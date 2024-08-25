@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SiteMapController!{% endblock %}
+
+{% block body %}
+<h1 class="text-center my-5">Plan du site</h1>
+
+<div class="col-8 ">
+    <h3><a href="{{ path('show_home')}}" class="text-dark">ACCEUIL</a></h3>
+    <h3><a href="{{ path('app_login')}}" class="text-dark">CONNEXION</a></h3>
+    <h3><a href="{{ path('show_services')}}" class="text-dark">SERVICES</a></h3>
+    <h3><a href="{{ path('show_mentions')}}" class="text-dark">MENTIONS LÉGALES</a></h3>
+    <h3><a href="{{ path('show_politique')}}" class="text-dark">POLITIQUE DE CONFIDENTIALITÉ</a></h3>
+    <h3><a href="{{ path('show_contact')}}" class="text-dark">CONTACT</a></h3>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<header class="d-flex align-items-center">
+    <div class="container d-flex justify-content-between">
+        <div class="d-flex align-items-center">
+            <a href="{{ path('show_home') }}">
+                <img src="{{ asset('/img/logo.svg')}}" alt="Phil's Laundry Logo" class="logo me-2">
+                <span class="h5 mb-0 text-black">PhilsLaundry</span>
+            </a>
+        </div>
+        <nav class="d-flex align-items-center">
+            {% if app.user %}
+                <a href="{{ path('show_dashboard') }}" class="text-dark fw-bold text-uppercase mx-3">Profil</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="text-dark fw-bold text-uppercase mx-3">Connexion</a>
+            {% endif %}
+                <a href="{{ path('show_services') }}" class="text-dark fw-bold text-uppercase mx-3">Services</a>
+            {% if app.user %}
+            <div class="avatar ms-3" data-initials="{{ app.user.firstName|first ~ app.user.name|first }}" data-color="{{ '#' ~ random(0, 16777215)|format('%06x') }}">
+                <span class="initials"></span>
+            </div>
+            {% endif %}
+
+        </nav>
+    </div>
+</header>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const avatar = document.querySelector('.avatar');
+    const initials = avatar.getAttribute('data-initials');
+    const color = avatar.getAttribute('data-color');
+
+    avatar.style.backgroundColor = color;
+    avatar.querySelector('.initials').textContent = initials;
+});
+
+</script>

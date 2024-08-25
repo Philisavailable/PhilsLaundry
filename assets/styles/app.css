@@ -1,3 +1,58 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    all: unset;
+    display: revert;
+}
+
+header, footer {
+    background-color: #BDE3FF;
+    min-height: 90px;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover{
+    cursor: pointer;
+}
+ ul>li{
+    list-style: none;
+ }
+
+.logo {
+    width: 50px; 
+    height: auto;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
 body {
-    background-color: skyblue;
+    display: flex;
+    flex-direction: column;
+}
+
+.avatar {
+    width: 40px;  
+    height: 40px; 
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; 
+    color: white; /* Couleur du texte */
+    font-weight: bold;
+    text-transform: uppercase; 
+    background-color: #1f8c52; 
+}
+
+.banner{
+    max-height: 150px;
+}
+
+.services-homes{
+    max-height: 400px;
 }
