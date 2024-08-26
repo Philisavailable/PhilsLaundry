@@ -17,8 +17,7 @@ class OrderDateValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        $endDateTime = (clone $value)->modify('+2 hours');
-        $existingOrders = $this->ordersRepository->countOrdersInRange($value, $endDateTime);
+        $existingOrders = $this->ordersRepository->countByDate($value);
 
         if ($existingOrders >= 3) {
             $this->context->buildViolation($constraint->message)
