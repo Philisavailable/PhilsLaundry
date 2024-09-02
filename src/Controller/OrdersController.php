@@ -8,7 +8,6 @@ use App\Form\OrdersAdminFormType;
 use App\Form\OrdersUsersFormType;
 use App\Service\SendEmailService;
 use App\Repository\OrdersRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,7 +29,6 @@ class OrdersController extends AbstractController
             $order->setStatus("Commandé");
             $order->setUserId($this->getUser());
             $selectedService = $order->getServiceId(); 
-            $serviceImage = $selectedService->getPhoto();
 
             $servicePrice = $selectedService->getPrice();
             $total = $order->getWeight() * $servicePrice;
@@ -54,9 +52,6 @@ class OrdersController extends AbstractController
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
         }
-    
-        // Vérifiez les rôles de l'utilisateur
-        dump($user->getRoles());
 
         $form = $this->createForm(OrdersAdminFormType::class, $order)
         ->handleRequest($request);

@@ -20,7 +20,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, UsersRepository $repo, EntityManagerInterface $entityManager, JWTService $jwt, SendEmailService $mail): Response
+    public function register(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        Security $security, 
+        UsersRepository $repo, 
+        EntityManagerInterface $entityManager, 
+        JWTService $jwt, 
+        SendEmailService $mail
+    ): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,7 +42,6 @@ class RegistrationController extends AbstractController
                 $user->setCreatedAt(new DateTime());
                 $user->setUpdatedAt(new DateTime());
             
-                // encode the plain password
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
                         $user,
@@ -70,15 +77,21 @@ class RegistrationController extends AbstractController
             }
 
             $this->addFlash('danger', "Vous êtes déjà inscrit");
-            return $this->redirectToRoute('show_adhesion');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
     }
+    
     #[Route('/verification/{token}', name: 'verify_user')]
-    public function verifUser($token, JWTService $jwt, UsersRepository $repo, EntityManagerInterface $entityManager): Response
+    public function verifUser(
+        $token, 
+        JWTService $jwt, 
+        UsersRepository $repo, 
+        EntityManagerInterface $entityManager
+    ): Response
     {
         if($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwtsecret'))){
             $payload = $jwt->getPayload($token);

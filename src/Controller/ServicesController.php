@@ -27,7 +27,16 @@ class ServicesController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/service', name: 'add_services', methods: ['GET', 'POST'])]
+    /**
+     * Adds a new service.
+     *
+     * @param Request            $request The current HTTP request.
+     * @param ServicesRepository $repo    The repository to save the service.
+     * @param SluggerInterface   $slug    The slugger service for file name processing.
+     * 
+     * @return Response The rendered view for adding a new service.
+     */
+    #[Route('/admin/services', name: 'add_services', methods: ['GET', 'POST'])]
     public function addServices(Request $request, ServicesRepository $repo, SluggerInterface $slug): Response
     {
 
@@ -57,6 +66,7 @@ class ServicesController extends AbstractController
             
         ]);
     }
+    
     #[Route('/admin/service-{id}', name: 'update_services', methods: ['GET', 'POST'])]
     public function updateServices(Services $service, Request $request, ServicesRepository $repo, SluggerInterface $slug): Response
     {
@@ -94,7 +104,7 @@ class ServicesController extends AbstractController
     }
 
     #[ROUTE('/admin/service/supprimer-{id}', name: 'delete_service', methods: ['GET'])]
-    public function softDeleteBenevole(Services $service, ServicesRepository $repo): Response
+    public function deleteService(Services $service, ServicesRepository $repo): Response
     {
         $service->setDeletedAt(new DateTime());
         $repo->save($service, true);
@@ -117,6 +127,8 @@ class ServicesController extends AbstractController
             $photo->move($this->getParameter('services_dir'), $newFilename);
             $services->setPhoto($newFilename);
         } catch (FileException $exception) {
+            $this->addFlash('danger', "Impossible d'enregistrer le fichier.");
+            throw $exception;
         }
 
     } // end handleFile()

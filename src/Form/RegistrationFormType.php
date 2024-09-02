@@ -80,8 +80,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -89,11 +87,15 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Entrez votre mot de passe',
                     ]),
                     new Length([
-                        'min' => 6,
+                        'min' => 12,
                         'minMessage' => 'Votre mot de passe doit avoir minimum {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    new Regex([
+                        'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
+                        'message' => "Votre mot de passe doit comporter au minimum 12 caractères mélangeant les majuscules, les minuscules, des chiffres et des caractères spéciaux"
+
+                    ])
                 ],
             ])
         ;
