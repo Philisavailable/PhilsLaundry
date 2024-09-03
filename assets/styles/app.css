@@ -2,7 +2,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    all: unset;
     display: revert;
 }
 
@@ -28,7 +27,9 @@ a:hover{
 
 html, body {
     height: 100%;
+    width: 100%;
     margin: 0;
+
 }
 body {
     display: flex;
@@ -43,7 +44,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 18px; 
-    color: white; /* Couleur du texte */
+    color: white;
     font-weight: bold;
     text-transform: uppercase; 
     background-color: #1f8c52; 
@@ -55,4 +56,44 @@ body {
 
 .services-homes{
     max-height: 400px;
+}
+
+.custom-footer-class {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-div{
+    width: 60%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+.search-child{
+    width: 100%;
+}
+button.search-child{
+    width: 150px !important;
+}
+@media only screen  and (max-width:768px){
+    body{
+        font-size: .9rem;
+    }
+    footer{
+        font-size: .6rem;
+    }
+    .custom-footer-class {
+        width: auto; 
+        margin-left: .5rem; 
+        margin-right: .5rem; 
+    }
+
+    .search-div{
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .search-child{
+        margin: 5px 0;
+    }
 }

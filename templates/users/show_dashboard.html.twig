@@ -68,7 +68,7 @@
 
     <!-- /////////////TABLE Commandes///////////// -->
     <div class="tab-pane show active" id="pills-commandes" role="tabpanel" aria-labelledby="pills-commandes-tab">
-        <div class="col-2 mb-3">
+        <div class="col-2-md mb-3">
             <a class="btn btn-sm btn-outline-success" href="{{ path('add_order') }}">+ Créer une commande</a>
         </div>
 
@@ -121,10 +121,10 @@
 
         <div class="my-4">
             <form method="get" action="{{ path('show_dashboard') }}">
-                <div class="d-flex flex-row justify-content-between col-6">
-                    <input type="text" id="search" name="search" class="form-control mx-4" value="{{ searchTerm }}" placeholder="Recherche par nom de client">
-                    <button type="submit" class="btn btn-secondary mx-3">Rechercher</button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">Réinitialiser</button>
+                <div class="search-div my-2">
+                    <input type="text" id="search" name="search" class="search-child form-control mx-4" value="{{ searchTerm }}" placeholder="Recherche par nom de client">
+                    <button type="submit" class="search-child btn btn-secondary mx-3">Rechercher</button>
+                    <button type="button" class="search-child btn btn-outline-secondary" onclick="resetForm()">Réinitialiser</button>
                 </div>
             </form>
         </div>
