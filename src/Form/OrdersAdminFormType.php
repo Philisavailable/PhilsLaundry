@@ -54,7 +54,7 @@ class OrdersAdminFormType extends AbstractType
                 'label' => 'Modifier la commande',
                 'validate' => false,
                 'attr' => [
-                    'class' => "d-block mx-auto my-3 btn btn-success col-3"
+                    'class' => "d-block mx-auto my-3 btn btn-success"
                 ]
             ])
            

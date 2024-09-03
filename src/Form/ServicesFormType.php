@@ -60,7 +60,7 @@ class ServicesFormType extends AbstractType
                 'label' => $options['photo'] === null ? 'Créer' : 'Modifier',
                 'validate' => false,
                 'attr' => [
-                    'class' => "d-block mx-auto my-3 btn btn-success col-3"
+                    'class' => "d-block mx-auto my-3 btn btn-success"
                 ]
             ])
         ;

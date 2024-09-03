@@ -13,7 +13,7 @@
   {%if user and user.id is not empty %}
   {{ form_row(form.roles)}}
   <a href="{{ path('delete_user', {id: user.id}) }}" 
-     class="d-block mx-auto my-3 btn btn-danger col-1" 
+     class="suppr-button d-block mx-auto my-3 btn btn-danger" 
      onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
       Supprimer
   </a>

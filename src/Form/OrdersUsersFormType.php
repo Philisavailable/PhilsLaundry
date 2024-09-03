@@ -85,7 +85,7 @@ class OrdersUsersFormType extends AbstractType
                 'label' => 'Créer la commande',
                 'validate' => false,
                 'attr' => [
-                    'class' => "d-block mx-auto my-3 btn btn-success col-3"
+                    'class' => "d-block mx-auto my-3 btn btn-success"
                 ]
             ])
         ;

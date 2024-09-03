@@ -16,7 +16,7 @@
 
   {%if service and service.id is not empty %}
     <a href="{{ path('delete_service', {id: service.id}) }}" 
-       class="d-block mx-auto my-3 btn btn-danger col-1" 
+       class="d-block mx-auto my-3 btn btn-danger suppr-button" 
        onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce service ?');">
         Supprimer
     </a>

@@ -34,9 +34,13 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    background: #FFFDF0;
+}
+button{
+    width: fit-content;
 }
 
-.avatar {
+.avatar{
     width: 40px;  
     height: 40px; 
     border-radius: 50%;
@@ -75,6 +79,14 @@ body {
 button.search-child{
     width: 150px !important;
 }
+.titre-slogan{
+    width: 30%;
+}
+
+.suppr-button{
+    font-size: .7rem;
+    width: fit-content;
+}
 @media only screen  and (max-width:768px){
     body{
         font-size: .9rem;
@@ -95,5 +107,8 @@ button.search-child{
     }
     .search-child{
         margin: 5px 0;
+    }
+    .titre-slogan{
+        width: 100%;
     }
 }

@@ -42,12 +42,12 @@
     {% if is_granted('ROLE_ADMIN') %}
     <!-- /////////////TABLE SERVICES///////////// -->
     <div class="tab-pane fade" id="pills-services" role="tabpanel" aria-labelledby="pills-services-tab">
-        <div class="col-2 mb-3">
+        <div class="mb-3">
             <a class="btn btn-sm btn-outline-success" href="{{ path('add_services') }}">+ Ajouter un service</a>
         </div>
         <div class="d-flex flex-wrap justify-content-around p-4">
             {% for service in services %}
-            <div class="card" style="width: 18rem;">
+            <div class="card my-2" style="width: 18rem;">
                 <a href="{{ path('update_services', { 'id': service.id }) }}">
                     <img class="card-img-top" src="{{ asset('services/' ~ service.photo) }}"
                         alt="Image {{ service.title }}">
@@ -68,7 +68,7 @@
 
     <!-- /////////////TABLE Commandes///////////// -->
     <div class="tab-pane show active" id="pills-commandes" role="tabpanel" aria-labelledby="pills-commandes-tab">
-        <div class="col-2-md mb-3">
+        <div class="mb-3">
             <a class="btn btn-sm btn-outline-success" href="{{ path('add_order') }}">+ Créer une commande</a>
         </div>
 
@@ -169,7 +169,7 @@
     {% if is_granted('ROLE_ADMIN') %}
     <!-- /////////////TABLE Employés///////////// -->
     <div class="tab-pane fade" id="pills-employee" role="tabpanel" aria-labelledby="pills-employee-tab">
-        <div class="col-2 mb-3">
+        <div class="mb-3">
             <a class="btn btn-sm btn-outline-success" href="{{ path('add_employee') }}">+ Ajouter un employé</a>
         </div>
         <div class="p-4">
@@ -244,7 +244,7 @@
                 <p class="fs-3">Email : {{ app.user.email }}</p>
             </div>
             
-            <a href="{{ path('update_connected_user') }}" class="d-block mx-auto btn btn-outline-secondary col-2">Modifier</a>
+            <a href="{{ path('update_connected_user') }}" class="d-block mx-auto btn btn-outline-secondary">Modifier</a>
         </div>
     </div>
     <!-- /////////////END TABLE///////////// -->

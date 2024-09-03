@@ -99,7 +99,7 @@ class AdminFormType extends AbstractType
                 'choices'  => $roles,
                 'expanded' => false,
                 'multiple' => true,
-                'data'     => $data ? $data->getRoles() : ['ROLE_USER'], // Définir le rôle par défaut lors de la création
+                'data'     => $data ? $data->getRoles() : ['ROLE_USER'],
                 'label'    => 'Rôles',
                 'attr'     => ['class' => 'custom-select my-4']
             ]);
