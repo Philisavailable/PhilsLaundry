@@ -4,20 +4,18 @@
 
 {% block body %}
 <div class="text-center col-6 mx-auto h-100">
+    {%if is_blocked%}
 
+    <h1 class="my-4 text-danger">Votre compte est temporairement bloqué. Réessayez dans {{ (time_remaining / 60) | round }} minutes et {{ (time_remaining % 60) }} secondes.</h1>
+
+    {% else %}
     <form method="post">
-        {% if error %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span class="alert-inner--text">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-
         {% if app.user %}
         <div class="mb-3">
             Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
         {% endif %}
+
 
 
         <h1 class="my-4">Connexion</h1>
@@ -36,6 +34,7 @@
         <p class="my-2"><a class="text-dark" href="{{ path('forgotten_password') }}">Mot de passe oublié</a></p>
         <p class="mt-5">Pas de compte ? <a class="text-dark text-decoration-underline fw-bold" href="{{ path('app_register')}}">inscrivez-vous</a></p>
     </form>
+    {% endif %}
 </div>
 
 {% endblock %}

@@ -18,19 +18,60 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
+    private const MAX_ATTEMPTS = 3;
+    private const BLOCK_TIME = 10 * 60;
+
     #[Route(path: '/connexion', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
+        $session = $request->getSession();
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+    
+        $blockedUntil = $session->get('blocked_until');
+        $isBlocked = $blockedUntil && time() < $blockedUntil;
+        $timeRemaining = $isBlocked ? max(0, $blockedUntil - time()) : 0;
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        if ($isBlocked) {
+            return $this->render('security/login.html.twig', [
+                'last_username' => $lastUsername,
+                'error' => null,
+                'is_blocked' => $isBlocked,
+                'time_remaining' => $timeRemaining,
+            ]);
+        }
+
+        if ($error) {
+            $attempts = $session->get('login_attempts', 0);
+            $session->set('login_attempts', $attempts + 1);
+
+            if ($session->get('login_attempts') == self::MAX_ATTEMPTS) {
+                $session->set('blocked_until', time() + self::BLOCK_TIME);
+                $session->set('login_attempts', 0); 
+
+                $isBlocked = true;
+                $timeRemaining = self::BLOCK_TIME;
+                $this->addFlash('danger', 'Vous avez atteint le nombre maximum de tentatives. Votre compte est maintenant bloqué pendant 10 minutes.');
+
+                return $this->render('security/login.html.twig', [
+                    'last_username' => $lastUsername,
+                    'error' => null,
+                    'is_blocked' => $isBlocked,
+                    'time_remaining' => $timeRemaining,
+                ]);
+            } else {
+                $this->addFlash('danger', 'Identifiants invalides. Veuillez vérifier votre email et mot de passe.');
+            }
+        } else {
+            $session->remove('login_attempts');
+        }
+    
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'is_blocked' => $isBlocked,
+            'time_remaining' => $timeRemaining,
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
