@@ -15,7 +15,7 @@ class OrderDateValidator extends ConstraintValidator
         $this->ordersRepository = $ordersRepository;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         $existingOrders = $this->ordersRepository->countByDate($value);
 
