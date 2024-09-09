@@ -123,6 +123,12 @@
             <form method="get" action="{{ path('show_dashboard') }}">
                 <div class="search-div my-2">
                     <input type="text" id="search" name="search" class="search-child form-control mx-4" value="{{ searchTerm }}" placeholder="Recherche par nom de client">
+                    <select name="status" class="form-select mx-4" aria-label="Filtrer par statut">
+                        <option value="">Tous les statuts</option>
+                        <option value="Commandé" {% if status == 'Commandé' %}selected{% endif %}>Commandé</option>
+                        <option value="En cours" {% if status == 'En cours' %}selected{% endif %}>En cours</option>
+                        <option value="Terminé" {% if status == 'Terminé' %}selected{% endif %}>Terminé</option>
+                    </select>
                     <button type="submit" class="search-child btn btn-secondary mx-3">Rechercher</button>
                     <button type="button" class="search-child btn btn-outline-secondary" onclick="resetForm()">Réinitialiser</button>
                 </div>

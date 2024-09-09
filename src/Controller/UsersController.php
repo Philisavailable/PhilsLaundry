@@ -23,8 +23,9 @@ class UsersController extends AbstractController
     public function showDashboard(Request $request,EntityManagerInterface $entityManager): Response
     {
         $searchTerm = $request->query->get('search', '');
+        $status = $request->query->get('status', '');
 
-        $orders = $entityManager->getRepository(Orders::class)->findOrdersByClientName($searchTerm);
+        $orders = $entityManager->getRepository(Orders::class)->findOrdersByStatusAndClientName($status, $searchTerm);
         $clientsOrders = $entityManager->getRepository(Orders::class)->findBy(['userId' => $this->getUser()]);
         $clients = $entityManager->getRepository(Users::class)->findByRole('ROLE_USER');
         $employees = $entityManager->getRepository(Users::class)->findByRole('ROLE_EMPLOYEE');
@@ -37,6 +38,7 @@ class UsersController extends AbstractController
             'clientsOrders' => $clientsOrders,
             'orders' => $orders,
             'searchTerm' => $searchTerm,
+            'status' => $status,
         ]);
     }
 

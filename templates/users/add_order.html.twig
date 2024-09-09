@@ -8,6 +8,10 @@
 <div class="col-6 mx-auto">
     <h1 class="text-center my-5">Créer une commande</h1>
 {{ form_start(form) }}
+    {{ form_row(form.serviceId) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.weight) }}
+    {{ form_row(form.note|e) }}
 {{ form_end(form) }}
 </div>
 {% endblock %}

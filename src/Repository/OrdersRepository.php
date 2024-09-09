@@ -54,14 +54,26 @@ class OrdersRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function findOrdersByClientName(string $searchTerm): array
+    public function findOrdersByStatusAndClientName(?string $status, ?string $searchTerm): array
     {
-        return $this->createQueryBuilder('o')
+        $queryBuilder = $this->createQueryBuilder('o')
             ->leftJoin('o.userId', 'u')
-            ->where('u.name LIKE :searchTerm OR u.firstName LIKE :searchTerm')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->where('1=1'); // Initial condition to allow dynamic addition
+
+        if ($status) {
+            $queryBuilder
+                ->andWhere('o.status LIKE :status')
+                ->setParameter('status', '%' . $status . '%');
+        }
+
+        if ($searchTerm) {
+            $queryBuilder
+                ->andWhere('u.name LIKE :searchTerm OR u.firstName LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+
+        return $queryBuilder
             ->getQuery()
             ->getResult();
     }
-
 }
