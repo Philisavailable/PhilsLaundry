@@ -20,14 +20,28 @@ class SecurityController extends AbstractController
 {
     
     #[Route(path: '/connexion', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('show_dashboard');
+        }
+        
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
     
+        $session = $request->getSession();
+
+        $attempts = $session->get('login_attempts', 1);
+        
         if ($error) {
-            sleep(2);
+            $delay = $attempts;
+            sleep($delay);
+        
+            $session->set('login_attempts', $attempts + 1);
+        
             $this->addFlash('danger', 'Identifiants invalides. Veuillez vérifier votre email ou mot de passe.');
+        } else {
+            $session->remove('login_attempts');
         }
     
         return $this->render('security/login.html.twig', [

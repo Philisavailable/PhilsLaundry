@@ -6,14 +6,6 @@
 <div class="text-center col-6 mx-auto h-100">
 
     <form method="post">
-        {% if app.user %}
-        <div class="mb-3">
-            Vous êtes déjà connecté {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-        </div>
-        {% endif %}
-
-
-
         <h1 class="my-4">Connexion</h1>
         <label class="mt-4" for="inputEmail">Email</label>
         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control my-2"

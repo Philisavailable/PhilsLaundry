@@ -21,6 +21,7 @@ security:
             custom_authenticator: App\Security\UsersAuthenticator
             logout:
                 path: app_logout
+                target: show_home
 
     access_control:
         - { path: ^/profil, roles: [ROLE_ADMIN, ROLE_EMPLOYEE, ROLE_USER] }
