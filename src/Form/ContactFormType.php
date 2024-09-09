@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ContactFormType extends AbstractType
 {
@@ -37,7 +38,7 @@ class ContactFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Email([
-                        'message' => 'votre mail doit être valide'
+                        'message' => 'Votre mail doit être valide'
                     ]),
                     new NotBlank([
                         'message' => 'Ce champ ne peut être vide'
@@ -50,7 +51,13 @@ class ContactFormType extends AbstractType
                 ]
                 ])
             ->add('message', TextareaType::class, [
-                'label' => "Votre message"
+                'label' => "Votre message",
+                'constraints' => [
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Veuillez raccourcir votre message'
+                    ])
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer ma demande',

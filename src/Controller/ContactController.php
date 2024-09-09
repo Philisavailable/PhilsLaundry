@@ -28,7 +28,7 @@ class ContactController extends AbstractController
                 'contact',
                 [
                     'nom' => $data['nom'], 
-                    'message' => $data['message'], 
+                    'message' => htmlspecialchars($data['message'], ENT_QUOTES, 'UTF-8'), 
                 ]
             );
 
