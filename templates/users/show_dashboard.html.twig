@@ -142,6 +142,7 @@
             </thead>
             <tbody>
                 {% for order in orders %}
+                {% if order.userId is not null %}
                 <tr>
                     {% set user = order.userId %}
                     {% set service = order.serviceId %}
@@ -157,6 +158,7 @@
                 <tr>
                     <th scope="row">2</th>Pas de commande pour le moment</th>
                 </tr>
+                {% endif %}
                 {% endfor %}
             </tbody>
         </table>
