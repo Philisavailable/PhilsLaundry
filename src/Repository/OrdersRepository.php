@@ -58,7 +58,7 @@ class OrdersRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->leftJoin('o.userId', 'u')
-            ->where('1=1'); // Initial condition to allow dynamic addition
+            ->where('1=1'); 
 
         if ($status) {
             $queryBuilder

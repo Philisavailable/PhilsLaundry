@@ -11,7 +11,7 @@
     {{ form_row(form.serviceId) }}
     {{ form_row(form.date) }}
     {{ form_row(form.weight) }}
-    {{ form_row(form.note|e) }}
+    {{ form_row(form.note|escape) }}
 {{ form_end(form) }}
 </div>
 {% endblock %}
